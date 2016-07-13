@@ -36,16 +36,20 @@ pub trait Span {
 
 impl fmt::Display for Span {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let mut kv_annotations = String::new();
-        for (k, v) in self.kv_annotations() {
-            kv_annotations.push_str(format!("{}={} ",
-                                            String::from_utf8(*k.clone()).unwrap(),
-                                            String::from_utf8(*v.clone()).unwrap())
-                .as_str());
-        }
+        let kv_annotations = self.kv_annotations().fold(String::new(), |s, (k, v)| {
+            format!("{}{}{}={}",
+                    s,
+                    if s == "" {
+                        "["
+                    } else {
+                        ","
+                    },
+                    String::from_utf8(*k.clone()).unwrap(),
+                    String::from_utf8(*v.clone()).unwrap())
+        });
         write!(f,
                "Span[id: {}, description: {}, parent_span_id: {}, trace_id: {}, acc_millis: {}, \
-                started_at: {}, kv_annotations: {}]",
+                started_at: {}, kv_annotations: {}]]",
                self.span_id(),
                self.description(),
                self.parent_span_id(),

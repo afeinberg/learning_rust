@@ -46,9 +46,9 @@ impl Tracer {
 
 thread_local!(pub static TRACER: RefCell<Tracer> = Tracer::tracer());
 
-pub fn current_span() -> Rc<RefCell<Span>> {
+pub fn current_span(desc: &str) -> Rc<RefCell<Span>> {
     TRACER.with(|tr| {
         let mut t = tr.borrow_mut();
-        t.create_span("foo")
+        t.create_span(desc)
     })
 }
