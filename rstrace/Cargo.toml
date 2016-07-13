@@ -1,0 +1,17 @@
+[package]
+name = "rstrace"
+version = "0.1.0"
+authors = ["Alex Feinberg <alex@strlen.net>"]
+
+[lib]
+name = "rstrace"
+path = "src/rstrace/lib.rs"
+
+[dependencies]
+rand = "*"
+#thread_local = "*"
+
+[[bin]]
+name = "rstrace"
+path = "src/bin/rstrace.rs"
+
